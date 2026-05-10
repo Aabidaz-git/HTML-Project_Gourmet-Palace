@@ -11,4 +11,4 @@ Tujuan dari project ini adalah membuat tampilan awal aplikasi restoran sederhana
 Versi awal (prototype) – fokus pada desain dasar dan struktur halaman.
 
 ## 📝 Catatan
-Project ini masih dalam tahap awal, sehingga fitur dan tampilan akan terus diperbarui.
+Desain Project ini masih dalam tahap awal, sehingga fitur dan tampilan merupakan konsep aplikasi Gourmet Palace pertama.
