@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Gourmet Palace</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #8b5a2b;
+      --accent: #c19a6b;
+      --light: #f5f5f4;
+      --dark: #1a1a1a;
+      --gray: #e0e0e0;
+    }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; color: var(--dark); }
+    header {
+      background: var(--dark); color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .search-bar input {
+      padding: 10px 16px;
+      border-radius: 25px;
+      border: 1px solid var(--gray);
+      width: 250px;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .profile:hover { text-decoration: underline; cursor: pointer; }
+    .profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      flex: 1;
+      min-width: 200px;
+      max-width: 250px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .stat-card h2 {
+      font-size: 1.8rem;
+      margin: 0.5rem 0;
+      color: var(--primary);
+    }
+    .stat-card p {
+      margin: 0;
+      color: #666;
+    }
+    .orders {
+      margin: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--gray);
+      text-align: left;
+    }
+    th {
+      background: var(--accent);
+      color: white;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+    }
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+    .badge.selesai { background: #d4edda; color: #155724; }
+    .badge.proses { background: #d1ecf1; color: #0c5460; }
+    .badge.menunggu { background: #fff3cd; color: #856404; }
+    .badge.batal { background: #f8d7da; color: #721c24; }
+    .actions button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      font-size: 1rem;
+    }
+    .actions i.view { color: #3498db; }
+    .actions i.edit { color: #f39c12; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="search-bar">
+      <input type="text" placeholder="🔍 Cari...">
+    </div>
+    <h1>Dashboard Admin</h1>
+  <header>
+  </header>
+
+    <nav>
+      <a href="Menu Management.html">Kelola Menu</a>
+      <a href="login.html">Logout</a>
+    </nav>
+    <a class="profile" href="admin-profile.html">
+      <div>
+        <strong>Admin Kuliner</strong><br>
+        <small>Super Admin</small>
+      </div>
+      <img src="C:\Users\aabid\OneDrive\Documents\Restaurant App\Admin\profile-image-admin\pp.png" alt="Admin">
+    </a>
+  </header>
+
+  <section class="stats">
+    <div class="stat-card">
+      <i class="fas fa-utensils fa-2x" style="color:var(--primary);"></i>
+      <h2 id="statMenu">0</h2>
+      <p>Menu Makanan</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-shopping-cart fa-2x" style="color:var(--primary);"></i>
+      <h2 id="statPesanan">0</h2>
+      <p>Pesanan Hari Ini</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-users fa-2x" style="color:var(--primary);"></i>
+      <h2 id="statPelanggan">0</h2>
+      <p>Pelanggan</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-dollar-sign fa-2x" style="color:var(--primary);"></i>
+      <h2 id="statPendapatan">Rp 0</h2>
+      <p>Pendapatan Bulan Ini</p>
+    </div>
+  </section>
+
+  <section class="orders">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3>Pesanan Terbaru</h3>
+      <a href="#">Lihat Semua</a>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Pesanan</th>
+          <th>Pelanggan</th>
+          <th>Tanggal</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="orderTable">
+        <!-- Data pesanan akan diisi di sini -->
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+
+    function formatRupiah(angka) {
+      return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function renderDashboard() {
+      const orderTable = document.getElementById("orderTable");
+      const statMenu = document.getElementById("statMenu");
+      const statPesanan = document.getElementById("statPesanan");
+      const statPelanggan = document.getElementById("statPelanggan");
+      const statPendapatan = document.getElementById("statPendapatan");
+
+      orderTable.innerHTML = "";
+      let totalPendapatan = 0;
+      const hariIni = new Date().toISOString().split("T")[0];
+      let pesananHariIni = 0;
+      let pelanggan = new Set();
+
+      orders.slice().reverse().forEach((order, index) => {
+        totalPendapatan += order.total;
+        pelanggan.add(order.nama);
+        const tgl = order.tanggal;
+        if (tgl === hariIni) pesananHariIni++;
+
+        orderTable.innerHTML += `
+          <tr>
+            <td>${order.id}</td>
+            <td>${order.nama}</td>
+            <td>${tgl}</td>
+            <td>${formatRupiah(order.total)}</td>
+            <td><span class="badge ${order.status.toLowerCase()}">${order.status}</span></td>
+            <td class="actions">
+              <button><i class="fas fa-eye view"></i></button>
+              <button><i class="fas fa-edit edit"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+
+      statMenu.textContent = 20; // dari menu.html
+      statPesanan.textContent = pesananHariIni;
+      statPelanggan.textContent = pelanggan.size;
+      statPendapatan.textContent = formatRupiah(totalPendapatan);
+    }
+
+    document.addEventListener("DOMContentLoaded", renderDashboard);
+  </script>
+</body>
+</html>

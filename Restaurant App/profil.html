@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Profil Saya - Gourmet Palace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f5f2;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #1a1a1a;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .profile-pic {
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .profile-pic img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #c19a6b;
+    }
+
+    .profile-pic input[type="file"] {
+      display: none;
+    }
+
+    .upload-label {
+      margin-top: 0.5rem;
+      display: inline-block;
+      font-size: 0.9rem;
+      color: #8b5a2b;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .profile-data h2 {
+      text-align: center;
+      color: #8b5a2b;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    
+
+    
+
+    .btn-primary {
+      background-color: #8b5a2b;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #a06c3c;
+    }
+
+    .btn-secondary {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background-color: #999;
+    }
+
+    .btn-danger {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #c0392b;
+    }
+  
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 12px 20px;
+  min-width: 150px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(0);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.btn-primary {
+  background-color: #8b5a2b;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #a06c3c;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background-color: #999;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.btn-kembali {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-kembali:hover {
+  background-color: #5a6268;
+}
+
+</style>
+</head>
+<body>
+
+<header style="position: relative;">
+  
+<a href="dashboard_user.html" class="btn btn-kembali" style="position: absolute; left: 20px; top: 20px; padding: 8px 16px; font-size: 0.9rem; text-decoration: none; background-color:#1a1a1a; color:white;">Kembali</a>
+
+  <h1>Profil Pengguna</h1>
+</header>
+
+<div class="container">
+  <div class="profile-pic">
+    <img id="profileImage" src="C:\Users\aabid\OneDrive\Documents\Restaurant App\profile-image-user\PP - Copy.png" alt="Foto Profil">
+    <br>
+    <label class="upload-label">
+      Ganti Foto
+      <input type="file" accept="image/*" onchange="uploadPhoto(event)">
+    </label>
+  </div>
+
+  <div class="profile-data">
+    <h2>Data Diri Anda</h2>
+    <form id="profileForm">
+      <label for="nama">Nama Lengkap</label>
+      <input type="text" id="nama" value="">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" value="">
+
+      <label for="phone">Nomor HP</label>
+      <input type="tel" id="phone" value="">
+    </form>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="updateProfile()">Simpan Perubahan</button>
+    <button class="btn btn-secondary" onclick="switchAccount()">Ganti Akun</button>
+    <button class="btn btn-danger" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("userLogin"));
+  const profileImg = document.getElementById("profileImage");
+
+  window.onload = function () {
+    if (user) {
+      document.getElementById("nama").value = user.nama;
+      document.getElementById("email").value = user.email;
+      document.getElementById("phone").value = user.phone;
+      if (user.foto) profileImg.src = user.foto;
+    } else {
+      document.getElementById("nama").value = "Anonymus User";
+      document.getElementById("email").value = "-";
+      document.getElementById("phone").value = "-";
+    }
+  }
+
+  function uploadPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imgData = e.target.result;
+        profileImg.src = imgData;
+        if (user) {
+          user.foto = imgData;
+          localStorage.setItem("userLogin", JSON.stringify(user));
+        }
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function updateProfile() {
+    if (!user) return alert("Anda belum login.");
+    user.nama = document.getElementById("nama").value;
+    user.email = document.getElementById("email").value;
+    user.phone = document.getElementById("phone").value;
+    localStorage.setItem("userLogin", JSON.stringify(user));
+    alert("Perubahan disimpan.");
+  }
+
+  function logout() {
+    const confirmLogout = confirm("Anda yakin ingin logout?");
+    if (confirmLogout) {
+      localStorage.removeItem("userLogin");
+      alert("Anda telah logout.");
+      window.location.href = "login.html";
+    }
+  }
+
+  function switchAccount() {
+    alert("Silakan login dengan akun berbeda.");
+    localStorage.removeItem("userLogin");
+    window.location.href = "login.html";
+  }
+
+  function kembali() {
+    alert("Kembali ke Dashboard?");
+    localStorage.removeItem("userLogin");
+    window.location.href = "dashboard_user.html";
+  }
+</script>
+
+</body>
+</html>

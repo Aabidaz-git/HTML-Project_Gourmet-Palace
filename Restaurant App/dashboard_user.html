@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Palace - Fine Dining Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <style>
+        :root {
+            --primary: #8b5a2b; /* Rich brown */
+            --secondary: #1a1a1a; /* Dark for luxury */
+            --accent: #c19a6b; /* Gold accent */
+            --light: #f8f5f2; /* Cream background */
+            --dark: #333333;
+            --success: #4caf50;
+            --text: #333333;
+            --text-light: #777777;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Luxury Header */
+        header {
+            background: rgba(26, 26, 26, 0.9);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(193, 154, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(26, 26, 26, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav ul li {
+            margin-left: 1.8rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .cart-icon {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: var(--secondary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Luxury Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            height: 100vh;
+            min-height: 800px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            margin-top: 0;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            animation: fadeInUp 1s ease;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Luxury Button */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--accent);
+            color: var(--secondary);
+            border: none;
+            border-radius: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+        }
+        
+        .btn:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+        
+        /* Chef's Special Section */
+        .chef-special {
+            padding: 6rem 0;
+            background: var(--light);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--secondary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: var(--accent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 1rem auto 0;
+            line-height: 1.7;
+        }
+        
+        .special-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .special-card {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        
+        .special-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .special-img {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .special-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .special-card:hover .special-img img {
+            transform: scale(1.1);
+        }
+        
+        .special-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .special-content {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .special-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+        
+        .special-content p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .special-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        
+        .special-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-right: 20px;
+        }
+        
+        /* Degustation Menu Section */
+        .degustation {
+            padding: 6rem 0;
+            background: url('https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+        
+        .degustation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .degustation-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .degustation h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .degustation p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        
+        /* Wine Pairing Section */
+        .wine-pairing {
+            padding: 6rem 0;
+            background: var(--light);
+        }
+        
+        .pairing-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+        
+        .pairing-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            background: white;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .pairing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .pairing-card h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .pairing-card p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .pairing-list {
+            list-style: none;
+        }
+        
+        .pairing-list li {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pairing-list li i {
+            color: var(--accent);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .pairing-img {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            background: url('https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 6rem 0;
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .testimonial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 2.5rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(193, 154, 107, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+        
+        .testimonial-card .quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: white;
+            line-height: 1.8;
+            position: relative;
+        }
+        
+        .testimonial-card .quote:before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--accent);
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            border: 2px solid var(--accent);
+        }
+        
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+        
+        /* Location Section */
+        .location {
+            padding: 6rem 0;
+            background: var(--light);
+            text-align: center;
+        }
+        
+        .location-form {
+            max-width: 600px;
+            margin: 3rem auto 0;
+            background: white;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            background: white;
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 5rem 0 2rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-col p {
+            margin-bottom: 1.5rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .pairing-container {
+                flex-direction: column;
+            }
+            
+            .pairing-img {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .special-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero {
+                height: 80vh;
+                min-height: 600px;
+            }
+            
+            .degustation h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Gourmet Palace</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="active">Beranda</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="#location">Location</a></li>
+                    <li><a href="profil.html">Profile</a></li>
+                    <li class="cart-icon">
+                        <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                        <span class="cart-count">0</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="container">
+                <h1>Pengalaman Kuliner Bintang Lima</h1>
+                <p>Nikmati keahlian chef kami yang telah diakui secara internasional dengan bahan-bahan premium pilihan dari seluruh dunia</p>
+                <div>
+                    <a href="menu.html" class="btn btn-outline">Jelajahi Menu</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chef's Special Section -->
+    <section class="chef-special" id="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>Spesial Chef</h2>
+                <p>Kreasi eksklusif dari Executive Chef kami yang memenangkan penghargaan</p>
+            </div>
+            <div class="special-container">
+                <!-- Item 1 -->
+                <div class="special-card">
+                    <div class="special-img">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Lobster Thermidor">
+                    </div>
+                    <div class="special-content">
+                        <h3>Lobster Thermidor</h3>
+                        <p>Lobster segar dengan saus krim mustard dan keju gruyère, dipanggang sempurna</p>
+                        <div class="special-meta">
+                            <span class="special-price">Rp 850.000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="special-card">
+                    <div class="special-img">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1371&q=80" alt="Beef Wellington">
+                    </div>
+                    <div class="special-content">
+                        <h3>Beef Wellington</h3>
+                        <p>Daging tenderloin premium dibungkus dengan duxelles jamur dan puff pastry</p>
+                        <div class="special-meta">
+                            <span class="special-price">Rp 1.250.000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="special-card">
+                    <div class="special-img">
+                        <img src="https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Truffle Pasta">
+                        <div class="special-badge">Chef's Signature</div>
+                    </div>
+                    <div class="special-content">
+                        <h3>Pasta Truffle Hitam</h3>
+                        <p>Pasta buatan tangan dengan saus krim truffle hitam Alba dan parmesan reggiano</p>
+                        <div class="special-meta">
+                            <span class="special-price">Rp 650.000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item 4 -->
+                <div class="special-card">
+                    <div class="special-img">
+                        <img src="https://images.unsplash.com/photo-1506355683713-0c7a4a5f88e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Salmon Miso Glaze">
+                    </div>
+                    <div class="special-content">
+                        <h3>Salmon Miso Glaze</h3>
+                        <p>Fillet salmon Norwegia dipanggang dengan saus miso manis dan taburan biji wijen hitam</p>
+                        <div class="special-meta">
+                            <span class="special-price">Rp 720.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="special-card">
+                    <div class="special-img">
+                        <img src="https://images.unsplash.com/photo-1625944192147-5a4d25a60c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Foie Gras Brioche">
+                    </div>
+                    <div class="special-content">
+                        <h3>Foie Gras Brioche</h3>
+                        <p>Foie gras lembut di atas brioche panggang dengan selai anggur merah</p>
+                        <div class="special-meta">
+                            <span class="special-price">Rp 980.000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item 6 -->
+                <div class="special-card">
+                    <div class="special-img">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Duck Confit">
+                        <div class="special-badge">New</div>
+                    </div>
+                    <div class="special-content">
+                        <h3>Duck Confit</h3>
+                        <p>Paha bebek dimasak perlahan dalam minyak dengan kulit yang renyah sempurna</p>
+                        <div class="special-meta">
+                            <span class="special-price">Rp 890.000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Degustation Menu Section -->
+    <section class="degustation" id="degustation">
+        <div class="container">
+            <div class="degustation-content">
+                <h2>Menu Degustasi Eksklusif</h2>
+                <p>Nikmati perjalanan kuliner tujuh hidangan yang dirancang khusus oleh chef kami, dipadukan dengan minuman pilihan sommelier kami. Pengalaman gastronomi yang tak terlupakan dengan bahan-bahan musiman terbaik.</p>
+                <a href="menu.html#menuItems" class="btn">Jelajahi Sekarang!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signature Drinks Section -->
+    <section class="beverages" id="beverages">
+        <div class="container">
+            <div class="section-title">
+                <h2>Minuman Signature Best Chef</h2>
+                <p>Minuman eksklusif kreasi chef kami yang menyegarkan dan menggoda selera</p>
+            </div>
+            <div class="pairing-container">
+                <!-- Minuman 1 -->
+                <div class="pairing-card">
+                    <h3>Lychee Rose Sparkle</h3>
+                    <p>Kombinasi lychee, rose syrup, dan soda citrus dengan sentuhan edible gold leaf</p>
+                    <span class="pairing-price">Rp 120.000</span>
+                </div>
+
+                <!-- Minuman 2 -->
+                <div class="pairing-card">
+                    <h3>Cucumber Mint Elixir</h3>
+                    <p>Infused cucumber water dengan mint segar, jeruk nipis, dan sedikit jalapeño</p>
+                    <span class="pairing-price">Rp 95.000</span>
+                </div>
+
+                <!-- Minuman 3 -->
+                <div class="pairing-card">
+                    <h3>Espresso Passion Fizz</h3>
+                    <p>Espresso kuat dipadukan dengan passion fruit, vanilla syrup, dan tonic water</p>
+                    <span class="pairing-price">Rp 135.000</span>
+                </div>
+
+                <!-- Minuman 4 -->
+                <div class="pairing-card">
+                    <h3>Berry Basil Bliss</h3>
+                    <p>Blueberry, basil segar, jus lemon, dan soda ringan dengan garnish buah segar</p>
+                    <span class="pairing-price">Rp 110.000</span>
+                </div>
+
+                <!-- Minuman 5 -->
+                <div class="pairing-card">
+                    <h3>Lavender Honey Ice</h3>
+                    <p>Lavender syrup, madu organik, es batu kristal, dan twist lemon</p>
+                    <span class="pairing-price">Rp 125.000</span>
+                </div>
+                
+                <!-- Minuman 6 -->
+                <div class="pairing-card">
+                    <h3>Tropical Sunset</h3>
+                    <p>Campuran mangga, markisa, dan jeruk dengan gradasi warna seperti sunset</p>
+                    <span class="pairing-price">Rp 115.000</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Apa Kata Tamu Kami</h2>
+                <p>Pengalaman tak terlupakan dari tamu-tamu terhormat kami</p>
+            </div>
+            <div class="testimonial-container">
+                <!-- Testimoni 1 -->
+                <div class="testimonial-card">
+                    <p class="quote">Pengalaman makan terbaik dalam hidup saya. Setiap hidangan adalah karya seni yang memukau, dan pelayanan yang sempurna. Wine pairing yang direkomendasikan sommelier benar-benar meningkatkan pengalaman.</p>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sarah Wijaya">
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Wijaya</h4>
+                            <p>Food Critic</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimoni 2 -->
+                <div class="testimonial-card">
+                    <p class="quote">Sebagai pecinta kuliner, saya telah mengunjungi banyak restoran bintang Michelin di seluruh dunia. Gourmet Palace berdiri sejajar dengan yang terbaik. Lobster Thermidor mereka adalah yang terbaik yang pernah saya cicipi.</p>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Johnson">
+                        </div>
+                        <div class="author-info">
+                            <h4>Michael Johnson</h4>
+                            <p>International Food Blogger</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimoni 3 -->
+                <div class="testimonial-card">
+                    <p class="quote">Menu degustasi tujuh hidangan adalah perjalanan kuliner yang tak terlupakan. Perhatian terhadap detail dalam setiap hidangan dan pengetahuan sommelier tentang wine benar-benar luar biasa.</p>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Dewi Lestari">
+                        </div>
+                        <div class="author-info">
+                            <h4>Dewi Lestari</h4>
+                            <p>Celebrity Chef</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lokasi Restoran -->
+<!-- Lokasi Restoran Internasional -->
+<section class="location" id="location">
+    <div class="container">
+        <div class="section-title">
+            <h2>Kunjungi kami di lokasi ini!</h2>
+            <p>Gourmet Palace hadir di berbagai negara untuk menghadirkan pengalaman kuliner kelas dunia</p>
+        </div>
+        <div style="text-align: center;">
+            <iframe
+              src="https://www.google.com/maps/d/u/0/embed?mid=1G9lVNr6QwNhFw2tqOQq9iZbH05FNyvc&usp=sharing"
+              width="100%"
+              height="480"
+              style="border:0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <p style="margin-top: 1rem; font-size: 1rem; color: #555;">
+                📍 Cabang tersedia di: <strong>Jakarta</strong>, <strong>Tokyo</strong>, <strong>Singapore</strong>, <strong>Malaysia</strong>, <strong>Korea</strong>, <strong>Türkiye</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Tentang Kami</h3>
+                    <p>Gourmet Palace adalah restoran bintang lima yang menawarkan pengalaman kuliner kelas dunia dengan bahan-bahan premium dan teknik memasak tingkat internasional.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Jam Operasional</h3>
+                    <p>Senin - Jumat: 17:00 - 23:00<br>
+                    Sabtu - Minggu: 12:00 - 23:00</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontak</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jl. Sudirman No. 88, Jakarta</p>
+                    <p><i class="fas fa-phone-alt"></i> (021) 555-1234</p>
+                    <p><i class="fas fa-envelope"></i> info@gourmetpalace.id</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Tautan Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" class="active">Beranda</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="#location">Location</a></li>
+                        <li><a href="profil.html">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gourmet Palace. Semua hak cipta dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

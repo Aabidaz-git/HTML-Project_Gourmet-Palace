@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembayaran - Gourmet Palace</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f5f2;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #7a4c28;
+      margin-bottom: 1rem;
+    }
+
+    .total {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .form-section {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 2rem;
+      background-color: #8b5a2b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #a06c3c;
+    }
+
+    .notif {
+      margin-top: 1.5rem;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 6px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .notif.success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .notif.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Konfirmasi Pembayaran</h2>
+  <div class="total">Total Pembayaran: <span id="totalAmount">Rp -</span></div>
+
+  <label for="method">Pilih Metode Pembayaran</label>
+  <select id="method" onchange="showForm()">
+    <option value="">-- Pilih --</option>
+    <option value="bank">Transfer Bank</option>
+    <option value="ewallet">E-Wallet</option>
+    <option value="card">Kartu Kredit</option>
+  </select>
+
+  <!-- Transfer Bank -->
+  <div class="form-section" id="form-bank">
+    <label for="bank-name">Bank Tujuan</label>
+    <select id="bank-name">
+      <option value="">-- Pilih Bank --</option>
+      <option value="BCA">Bank BCA</option>
+      <option value="BNI">Bank BNI</option>
+      <option value="Mandiri">Bank Mandiri</option>
+    </select>
+    <label for="bank-account-name">Nama Pemilik Rekening</label>
+    <input type="text" id="bank-account-name" placeholder="Contoh: John Doe">
+    <label for="bank-account-number">Nomor Rekening</label>
+    <input type="text" id="bank-account-number" placeholder="Contoh: 1234567890">
+  </div>
+
+  <!-- E-Wallet -->
+  <div class="form-section" id="form-ewallet">
+    <label for="ewallet-type">Pilih E-Wallet</label>
+    <select id="ewallet-type">
+      <option value="">-- Pilih E-Wallet --</option>
+      <option value="OVO">OVO</option>
+      <option value="DANA">DANA</option>
+      <option value="GoPay">GoPay</option>
+    </select>
+    <label for="ewallet-phone">Nomor HP</label>
+    <input type="text" id="ewallet-phone" placeholder="Contoh: 081234567890">
+  </div>
+
+  <!-- Credit Card -->
+  <div class="form-section" id="form-card">
+    <label for="card-name">Nama di Kartu</label>
+    <input type="text" id="card-name" placeholder="Contoh: John Doe">
+    <label for="card-number">Nomor Kartu</label>
+    <input type="text" id="card-number" placeholder="Contoh: 4111 1111 1111 1111">
+    <label for="card-exp">Tanggal Kedaluwarsa</label>
+    <input type="text" id="card-exp" placeholder="MM/YY">
+    <label for="card-cvv">CVV</label>
+    <input type="text" id="card-cvv" placeholder="123">
+  </div>
+
+  <div class="form-section" id="amountSection">
+    <label for="amountPaid">Jumlah yang Dibayarkan</label>
+    <input type="number" id="amountPaid" placeholder="Masukkan nominal sesuai total">
+  </div>
+
+  <button onclick="processPayment()">Bayar Sekarang</button>
+
+  <div class="notif" id="notifBox"></div>
+</div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const tax = total * 0.1;
+  const finalTotal = total + tax;
+  document.getElementById('totalAmount').textContent = "Rp " + finalTotal.toLocaleString('id-ID');
+
+  function showForm() {
+    const method = document.getElementById('method').value;
+    document.querySelectorAll('.form-section').forEach(div => div.style.display = 'none');
+    if (method) {
+      document.getElementById('form-' + method).style.display = 'block';
+      document.getElementById('amountSection').style.display = 'block';
+    }
+  }
+
+  function processPayment() {
+    const method = document.getElementById('method').value;
+    const notifBox = document.getElementById('notifBox');
+    const amount = parseInt(document.getElementById('amountPaid')?.value || "0");
+
+    if (!method) return alert("Pilih metode pembayaran terlebih dahulu.");
+    if (isNaN(amount) || amount !== Math.round(finalTotal)) {
+      return alert(`Jumlah pembayaran harus tepat: Rp ${finalTotal.toLocaleString('id-ID')}`);
+    }
+
+    let valid = false;
+    if (method === "bank") {
+      valid = document.getElementById('bank-account-name').value &&
+              document.getElementById('bank-account-number').value &&
+              document.getElementById('bank-name').value;
+    } else if (method === "ewallet") {
+      valid = document.getElementById('ewallet-type').value &&
+              document.getElementById('ewallet-phone').value;
+    } else if (method === "card") {
+      valid = document.getElementById('card-name').value &&
+              document.getElementById('card-number').value &&
+              document.getElementById('card-exp').value &&
+              document.getElementById('card-cvv').value;
+    }
+
+    if (!valid) return alert("Lengkapi semua data transaksi.");
+
+    const konfirmasi = confirm("Apakah Anda yakin ingin melakukan pembayaran?");
+    if (!konfirmasi) return;
+
+    notifBox.style.display = 'block';
+    notifBox.className = 'notif';
+    notifBox.textContent = "Memproses pembayaran...";
+
+    setTimeout(() => {
+      const success = Math.random() > 0.1;
+      if (success) {
+        notifBox.textContent = "✅ Pembayaran berhasil! Terima kasih atas pesanan Anda.";
+        notifBox.classList.add('success');
+        localStorage.removeItem('cart');
+      } else {
+        notifBox.textContent = "❌ Pembayaran gagal. Silakan coba kembali.";
+        notifBox.classList.add('fail');
+      }
+    }, 2000);
+  }
+</script>
+
+</body>
+</html>

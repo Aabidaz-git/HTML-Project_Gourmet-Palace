@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manajemen Menu - Gourmet Palace</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f5f2;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #1a1a1a;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group input, .form-group select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      flex: 1;
+    }
+    .btn {
+      padding: 10px 20px;
+      background: #8b5a2b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .btn:hover {
+      background: #a06c3c;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    th {
+      background: #8b5a2b;
+      color: white;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .profile:hover { 
+      text-decoration: underline; cursor: pointer; }
+    .profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .actions button {
+      margin-right: 0.5rem;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .edit {
+      background: #3498db;
+      color: white;
+    }
+    .delete {
+      background: #e74c3c;
+      color: white;
+    }
+  </style>
+</head>
+<body></body>
+  <header>
+    <h1>Manajemen Menu</h1>
+
+  <header>
+  </header>
+  <header>
+  </header>
+  <header>
+  </header>
+    <nav>
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="admin-profile.html">Profil</a>
+    </nav>
+
+    <a class="profile" href="admin-profile.html">
+      <div>
+        <strong>Admin Kuliner</strong><br>
+        <small>Super Admin</small>
+      </div>
+      <img src="C:\Users\aabid\OneDrive\Documents\Restaurant App\Admin\profile-image-admin\pp.png" alt="Admin">
+    </a>
+  </header>
+
+  <div class="container">
+    <h2>Tambah / Edit Menu</h2>
+    <div class="form-group">
+      <input type="text" id="title" placeholder="Nama Menu">
+      <input type="number" id="price" placeholder="Harga">
+      <input type="text" id="category" placeholder="Kategori (makanan/minuman)">
+    </div>
+    <div class="form-group">
+      <input type="text" id="image" placeholder="URL Gambar">
+      <input type="text" id="description" placeholder="Deskripsi">
+    </div>
+    <button class="btn" onclick="addMenu()">Simpan Menu</button>
+
+    <h2>Daftar Menu</h2>
+    <table id="menuTable">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Harga</th>
+          <th>Kategori</th>
+          <th>Deskripsi</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data menu akan muncul di sini -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let menus = [];
+    let editingIndex = -1;
+
+    function addMenu() {
+      const title = document.getElementById("title").value;
+      const price = document.getElementById("price").value;
+      const category = document.getElementById("category").value;
+      const description = document.getElementById("description").value;
+
+      if (editingIndex > -1) {
+        menus[editingIndex] = { title, price, category, description };
+        editingIndex = -1;
+      } else {
+        menus.push({ title, price, category, description });
+      }
+
+      document.getElementById("title").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("category").value = "";
+      document.getElementById("description").value = "";
+
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector("#menuTable tbody");
+      tbody.innerHTML = "";
+
+      menus.forEach((menu, index) => {
+        const row = `<tr>
+          <td>${menu.title}</td>
+          <td>Rp ${parseInt(menu.price).toLocaleString()}</td>
+          <td>${menu.category}</td>
+          <td>${menu.description}</td>
+          <td class="actions">
+            <button class="edit" onclick="editMenu(${index})">Edit</button>
+            <button class="delete" onclick="deleteMenu(${index})">Hapus</button>
+          </td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function editMenu(index) {
+      const menu = menus[index];
+      document.getElementById("title").value = menu.title;
+      document.getElementById("price").value = menu.price;
+      document.getElementById("category").value = menu.category;
+      document.getElementById("description").value = menu.description;
+      editingIndex = index;
+    }
+
+    function deleteMenu(index) {
+      if (confirm("Yakin ingin menghapus menu ini?")) {
+        menus.splice(index, 1);
+        renderTable();
+      }
+    }
+  </script>
+</body>
+</html>

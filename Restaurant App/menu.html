@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Palace - Menu Lengkap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8b5a2b;
+            --secondary: #1a1a1a;
+            --accent: #c19a6b;
+            --light: #f8f5f2;
+            --dark: #333333;
+            --success: #4caf50;
+            --text: #333333;
+            --text-light: #777777;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(26, 26, 26, 0.9);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(193, 154, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav ul li {
+            margin-left: 1.8rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .cart-icon {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: var(--secondary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .menu-hero {
+            background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            margin-top: 80px;
+        }
+        
+        .menu-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .menu-hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .menu-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Menu Categories */
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+        
+        /* Menu Grid */
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 2rem 0;
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .menu-item-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .menu-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .menu-item:hover .menu-item-img img {
+            transform: scale(1.1);
+        }
+        
+        .menu-item-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: var(--secondary);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+        
+        .menu-item-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+        
+        .menu-item-desc {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .menu-item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .menu-item-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .menu-item-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .menu-item-btn:hover {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            animation: modalFadeIn 0.3s ease forwards;
+        }
+        
+        @keyframes modalFadeIn {
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+        
+        .modal-img {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .modal-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .modal-category {
+            display: inline-block;
+            background: var(--light);
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .modal-desc {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .modal-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-add {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .modal-add:hover {
+            background: var(--accent);
+            color: var(--secondary);
+        }
+        
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .cart-notification i {
+            margin-right: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 5rem 0 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-col p {
+            margin-bottom: 1.5rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .menu-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .menu-hero {
+                height: 250px;
+                margin-top: 70px;
+            }
+            
+            .menu-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .modal-img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Gourmet Palace</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard_user.html">Beranda</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="#location">Location</a></li>
+                    <li><a href="profil.html">Profile</a></li>
+                    <li class="cart-icon">
+                        <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                        <span class="cart-count">0</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="menu-hero">
+        <div class="menu-hero-content">
+            <div class="container">
+                <h1>Menu Lengkap Kami</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Categories -->
+    <div class="container">
+        <div class="menu-categories">
+            <button class="category-btn active" data-category="all">Semua Menu</button>
+            <button class="category-btn" data-category="makanan">Makanan</button>
+            <button class="category-btn" data-category="minuman">Minuman</button>
+            <button class="category-btn" data-category="spesial">Spesial Chef</button>
+        </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <div class="container">
+        <div class="menu-container" id="menu-container">
+            <!-- Items will be added by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-img">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="modal-body">
+                <span class="modal-category" id="modalCategory"></span>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-price" id="modalPrice"></div>
+                <button class="modal-add" id="modalAddBtn">Tambahkan ke Keranjang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cartNotification">
+        <i class="fas fa-check-circle"></i>
+        <span>Item ditambahkan ke keranjang!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Tentang Kami</h3>
+                    <p>Gourmet Palace adalah restoran bintang lima yang menawarkan pengalaman kuliner kelas dunia dengan bahan-bahan premium dan teknik memasak tingkat internasional.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Jam Operasional</h3>
+                    <p>Senin - Jumat: 17:00 - 23:00<br>
+                    Sabtu - Minggu: 12:00 - 23:00</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontak</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jl. Sudirman No. 88, Jakarta</p>
+                    <p><i class="fas fa-phone-alt"></i> (021) 555-1234</p>
+                    <p><i class="fas fa-envelope"></i> info@gourmetpalace.id</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Tautan Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="dashboard_user.html">Beranda</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="#location">Location</a></li>
+                        <li><a href="profil.html">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gourmet Palace. Semua hak cipta dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Data
+        const menuItems = [
+            {
+                id: 1,
+                title: "Lobster Thermidor",
+                category: "makanan",
+                price: 850000,
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+                description: "Lobster segar dengan saus krim mustard dan keju gruyère, dipanggang sempurna. Disajikan dengan sayuran musiman dan kentang tumbuk truffle.",
+                badge: "Best Seller"
+            },
+            {
+                id: 2,
+                title: "Beef Wellington",
+                category: "makanan",
+                price: 1250000,
+                image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1371&q=80",
+                description: "Daging tenderloin premium dibungkus dengan duxelles jamur dan puff pastry. Dimasak sempurna dengan tingkat kematangan medium rare.",
+                badge: ""
+            },
+            {
+                id: 3,
+                title: "Pasta Truffle Hitam",
+                category: "makanan",
+                price: 650000,
+                image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+                description: "Pasta buatan tangan dengan saus krim truffle hitam Alba dan parmesan reggiano. Dihiasi dengan irisan truffle segar.",
+                badge: "Chef's Signature"
+            },
+            {
+                id: 4,
+                title: "Salmon Miso Glaze",
+                category: "makanan",
+                price: 720000,
+                image: "https://images.unsplash.com/photo-1506355683713-0c7a4a5f88e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Fillet salmon Norwegia dipanggang dengan saus miso manis dan taburan biji wijen hitam. Disajikan dengan asparagus dan nasi sushi.",
+                badge: ""
+            },
+            {
+                id: 5,
+                title: "Foie Gras Brioche",
+                category: "makanan",
+                price: 980000,
+                image: "https://images.unsplash.com/photo-1625944192147-5a4d25a60c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Foie gras lembut di atas brioche panggang dengan selai anggur merah. Dihiasi dengan daun emas dan microgreens.",
+                badge: "Luxury"
+            },
+            {
+                id: 6,
+                title: "Duck Confit",
+                category: "makanan",
+                price: 890000,
+                image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Paha bebek dimasak perlahan dalam minyak dengan kulit yang renyah sempurna. Disajikan dengan kentang fondant dan saus orange gastrique.",
+                badge: "New"
+            },
+            {
+                id: 7,
+                title: "Risotto Jamur Liar",
+                category: "makanan",
+                price: 550000,
+                image: "https://images.unsplash.com/photo-1602781974267-8a18a0f2cfa0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Risotto krim dengan campuran jamur liar musiman, parmesan reggiano, dan kaldu jamur. Disajikan dengan truffle oil dan parsley segar.",
+                badge: "Vegetarian"
+            },
+            {
+                id: 8,
+                title: "Wagyu Tomahawk",
+                category: "makanan",
+                price: 1850000,
+                image: "https://images.unsplash.com/photo-1551615595-4625b54e9943?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Steak Wagyu A5 grade dengan tulang tomahawk, dimasak dengan teknik sous vide dan penyelesaian di atas arang. Disajikan dengan tiga jenis saus pilihan.",
+                badge: "Premium"
+            },
+            {
+                id: 9,
+                title: "Ravioli Lobster",
+                category: "makanan",
+                price: 750000,
+                image: "https://images.unsplash.com/photo-1611270632003-7a7ede5e0e4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Ravioli buatan tangan berisi daging lobster dengan saus bisque lobster dan caviar. Hidangan mewah dengan sentuhan modern.",
+                badge: ""
+            },
+            {
+                id: 10,
+                title: "Tuna Tartare",
+                category: "makanan",
+                price: 680000,
+                image: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Tuna sashimi grade dicincang halus dengan alpukat, minyak wijen, dan kecap Jepang premium. Disajikan dengan keripik wonton.",
+                badge: ""
+            },
+            {
+                id: 11,
+                title: "Lychee Rose Sparkle",
+                category: "minuman",
+                price: 120000,
+                image: "https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1370&q=80",
+                description: "Kombinasi lychee, rose syrup, dan soda citrus dengan sentuhan edible gold leaf. Minuman menyegarkan dengan aroma bunga yang lembut.",
+                badge: "Signature"
+            },
+            {
+                id: 12,
+                title: "Cucumber Mint Elixir",
+                category: "minuman",
+                price: 95000,
+                image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Infused cucumber water dengan mint segar, jeruk nipis, dan sedikit jalapeño untuk sensasi segar dengan sentuhan pedas.",
+                badge: ""
+            },
+            {
+                id: 13,
+                title: "Espresso Passion Fizz",
+                category: "minuman",
+                price: 135000,
+                image: "https://images.unsplash.com/photo-1524350876685-274059332603?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Espresso kuat dipadukan dengan passion fruit, vanilla syrup, dan tonic water. Kombinasi unik kopi dan buah yang menyegarkan.",
+                badge: "Chef's Pick"
+            },
+            {
+                id: 14,
+                title: "Berry Basil Bliss",
+                category: "minuman",
+                price: 110000,
+                image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Blueberry, basil segar, jus lemon, dan soda ringan dengan garnish buah segar. Rasa buah beri yang segar dengan aroma basil.",
+                badge: ""
+            },
+            {
+                id: 15,
+                title: "Lavender Honey Ice",
+                category: "minuman",
+                price: 125000,
+                image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Lavender syrup, madu organik, es batu kristal, dan twist lemon. Minuman dengan aroma bunga lavender yang menenangkan.",
+                badge: ""
+            },
+            {
+                id: 16,
+                title: "Tropical Sunset",
+                category: "minuman",
+                price: 115000,
+                image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Campuran mangga, markisa, dan jeruk dengan gradasi warna seperti sunset. Disajikan dengan garnish bunga edible.",
+                badge: "New"
+            },
+            {
+                id: 17,
+                title: "Chocolate Espresso Martini",
+                category: "minuman",
+                price: 150000,
+                image: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Campuran vodka, kahlua, espresso, dan cokelat premium. Disajikan dingin dengan garnish bubuk kakao.",
+                badge: "Alcoholic"
+            },
+            {
+                id: 18,
+                title: "Ginger Lemongrass Fizz",
+                category: "minuman",
+                price: 105000,
+                image: "https://images.unsplash.com/photo-1612528443702-f6741f70a049?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80",
+                description: "Infused jahe dan serai dengan soda dan jeruk nipis. Minuman detoks menyegarkan dengan manfaat kesehatan.",
+                badge: ""
+            },
+            {
+                id: 19 ,
+                title: "Menu Degustasi 7 Hidangan",
+                category: "spesial",
+                price: 2500000,
+                image: "https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Pengalaman kuliner eksklusif dengan 7 hidangan spesial chef yang berubah sesuai musim. Termasuk wine pairing dari sommelier kami.",
+                badge: "Premium"
+            },
+            {
+                id: 20,
+                title: "Chef's Surprise Menu",
+                category: "spesial",
+                price: 1800000,
+                image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                description: "Biarkan chef memilihkan menu spesial untuk Anda berdasarkan bahan terbaik hari ini. Pengalaman kuliner yang personal dan unik.",
+                badge: "Exclusive"
+            }
+        ];
+
+        // Cart Data
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = cartCount;
+
+        // Display Menu Items
+        const menuContainer = document.getElementById('menu-container');
+        
+        function displayMenuItems(items) {
+            menuContainer.innerHTML = '';
+            items.forEach((item, index) => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.style.animationDelay = `${index * 0.1}s`;
+                menuItem.setAttribute('data-category', item.category);
+                menuItem.innerHTML = `
+                    <div class="menu-item-img">
+                        <img src="${item.image}" alt="${item.title}">
+                        ${item.badge ? `<span class="menu-item-badge">${item.badge}</span>` : ''}
+                    </div>
+                    <div class="menu-item-content">
+                        <h3 class="menu-item-title">${item.title}</h3>
+                        <p class="menu-item-desc">${item.description}</p>
+                        <div class="menu-item-meta">
+                            <span class="menu-item-price">Rp ${item.price.toLocaleString('id-ID')}</span>
+                            <button class="menu-item-btn" data-id="${item.id}">Pesan</button>
+                        </div>
+                    </div>
+                `;
+                menuContainer.appendChild(menuItem);
+                
+                // Add click event to open modal
+                menuItem.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('menu-item-btn')) {
+                        openModal(item);
+                    }
+                });
+                
+                // Add click event to add to cart button
+                const addBtn = menuItem.querySelector('.menu-item-btn');
+                addBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToCart(item.id);
+                });
+            });
+        }
+
+        // Filter Menu Items by Category
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                if (category === 'all') {
+                    displayMenuItems(menuItems);
+                } else {
+                    const filteredItems = menuItems.filter(item => item.category === category);
+                    displayMenuItems(filteredItems);
+                }
+            });
+        });
+
+        // Modal Functions
+        const modal = document.getElementById('itemModal');
+        const modalClose = document.querySelector('.modal-close');
+        
+        function openModal(item) {
+            document.getElementById('modalImage').src = item.image;
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalDesc').textContent = item.description;
+            document.getElementById('modalPrice').textContent = `Rp ${item.price.toLocaleString('id-ID')}`;
+            
+            let categoryText = '';
+            switch(item.category) {
+                case 'makanan':
+                    categoryText = 'Makanan';
+                    break;
+                case 'minuman':
+                    categoryText = 'Minuman';
+                    break;
+                case 'spesial':
+                    categoryText = 'Spesial Chef';
+                    break;
+            }
+            document.getElementById('modalCategory').textContent = categoryText;
+            
+            // Update add to cart button
+            const addBtn = document.getElementById('modalAddBtn');
+            addBtn.onclick = () => {
+                addToCart(item.id);
+                modal.classList.remove('show');
+            };
+            
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Cart Functions
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const existingItem = cart.find(i => i.id === itemId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: item.id,
+                    title: item.title,
+                    price: item.price,
+                    image: item.image,
+                    quantity: 1
+                });
+            }
+            
+            // Update cart count
+            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = cartCount;
+            
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Show notification
+            showNotification();
+        }
+        
+        function showNotification() {
+            const notification = document.getElementById('cartNotification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize
+        displayMenuItems(menuItems);
+    </script>
+</body>
+</html>
